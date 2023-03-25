@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<tomcat-users xmlns="http://tomcat.apache.org/xml"
+              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+              xsi:schemaLocation="http://tomcat.apache.org/xml tomcat-users.xsd"
+              version="1.0">
+    <!-- 
+        Built-in Tomcat manager roles:
+            - manager-gui    - allows access to the HTML GUI and the status pages
+            - manager-script - allows access to the HTTP API and the status pages
+            - manager-jmx    - allows access to the JMX proxy and the status pages
+            - manager-status - allows access to the status pages only
+    -->
+    <!--<role rolename="admin-gui"/>-->
+    <!--<user username="${TOMCAT_ADMIN_USER}" password="${TOMCAT_ADMIN_PASSWORD_FILE}" roles="admin-gui,manager-gui" />-->
+</tomcat-users>

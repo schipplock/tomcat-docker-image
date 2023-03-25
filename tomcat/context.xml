@@ -1,0 +1,14 @@
+<Context>
+    <WatchedResource>WEB-INF/web.xml</WatchedResource>
+    <WatchedResource>WEB-INF/tomcat-web.xml</WatchedResource>
+    <WatchedResource>${catalina.base}/conf/web.xml</WatchedResource>
+    <!-- Uncomment this to enable session persistence across Tomcat restarts -->
+    <!--
+    <Manager pathname="SESSIONS.ser" />
+    -->
+    <Resource name="jdbc/postgres" auth="Container"
+              type="javax.sql.DataSource" driverClassName="org.postgresql.Driver"
+              url="jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT:-5432}/${POSTGRES_DB}"
+              username="${POSTGRES_USER}" password="${POSTGRES_PASSWORD_FILE}" maxTotal="${TOMCAT_POOL_MAX_CONNECTIONS:-20}" maxIdle="${TOMCAT_POOL_MAX_IDLE_CONNECTIONS:-10}"
+              maxWaitMillis="-1" />
+</Context>

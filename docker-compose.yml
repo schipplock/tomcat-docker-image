@@ -1,0 +1,69 @@
+networks:
+  local-net:
+    name: local-net
+    ipam:
+      driver: default
+      config:
+        - subnet: 10.10.1.0/24
+
+secrets:
+  truststore_password:
+    file: ./secrets/pw_truststore
+  keystore_password:
+    file: ./secrets/pw_keystore
+  postgres_password:
+    file: ./secrets/pw_postgres
+
+services:
+
+  db:
+    build:
+      network: host
+      context: .
+      dockerfile: Dockerfile.postgres
+    image: local/postgres:15.2
+    container_name: db
+    networks:
+      local-net:
+        aliases:
+          - db
+    ports:
+      - "5432:5432"
+    secrets:
+      - postgres_password
+    environment:
+      POSTGRES_USER: db
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      POSTGRES_DB: db
+
+  tomcat:
+    build:
+      network: host
+      context: .
+      dockerfile: Dockerfile
+    image: docker.schipplock.de/tomcat:10.1.7
+    container_name: tomcat
+    networks:
+      local-net:
+        aliases:
+          - tomcat
+    ports:
+      - "80:8080"
+      - "443:8443"
+    secrets:
+      - truststore_password
+      - keystore_password
+      - postgres_password
+    environment:
+      POSTGRES_HOST: db
+      POSTGRES_PORT: 5432
+      POSTGRES_USER: db
+      POSTGRES_DB: db
+      TOMCAT_POOL_MAX_CONNECTIONS: 100
+      TOMCAT_POOL_MAX_IDLE_CONNECTIONS: 10
+      POSTGRES_PASSWORD_FILE: /run/secrets/postgres_password
+      TRUSTSTORE_PASSWORD_FILE: /run/secrets/truststore_password
+      KEYSTORE_ALIAS: server
+      KEYSTORE_PASSWORD_FILE: /run/secrets/keystore_password
+    depends_on:
+      - db
