@@ -11,7 +11,7 @@ Ich habe einen Datenbankpool für Postgres vorkonfiguriert, der über Umgebungsv
 Außerdem ist ein `keystore` und ein `truststore` vorkonfiguriert.
 Der `keystore` enthält ein selbst erstelltes Zertifikat, damit man lokale Tests mit HTTPS machen kann.
 Der `truststore` enthält lediglich das Root und Intermediate Zertifikat von Let's Encrypt.
-Will man Tomcat produktiv über HTTPS erreichen, muss man mindestens einen eigenen `keystore` erstellen und den von "außen" in den Container reingeben (`/opt/tomcat/conf/keystore.jks` und `/opt/tomcat/conf/truststore.jks`). Oder man macht das anders (Reverse Proxy, der selbst HTTPS macht). Tomcat lauscht auf 8080 (HTTP) und 8443 (HTTPS).
+Will man Tomcat produktiv über HTTPS erreichen, muss man mindestens einen eigenen `keystore` erstellen und den von "außen" in den Container reingeben (`/opt/tomcat/conf/keystore.jks` und `/opt/tomcat/conf/cacerts.jks`). Oder man macht das anders (Reverse Proxy, der selbst HTTPS macht). Tomcat lauscht auf 8080 (HTTP) und 8443 (HTTPS).
 Passwort (Key- und Truststore) und Alias (Keystore) sind über Umgebungsvariablen steuerbar (siehe Beispiel `docker-compose.yml`). Das Passwort für Key- und Truststore ist `changeit`.
 
 In meinem Tomcat ist eine Erweiterung enthalten, die es erlaubt `_FILE`-Umgebungsvariablen in XML-Konfigurationen zu verwenden (siehe: https://github.com/schipplock/tomcat-environment-property-source-file).
