@@ -9,10 +9,13 @@ ENV DEBIAN_FRONTEND=noninteractive
 
 # Falls der Ubuntu-Server mal wieder rumspackt (tut er manchmal),
 # kann man hier einen Mirror eintragen
-COPY ubuntu/sources.list /etc/apt/sources.list
+#COPY ubuntu/sources.list /etc/apt/sources.list
 
 COPY tomcat/build.properties build/tomcat/build.properties
 COPY tomcat/tomcat-environment-property-source-file-0.0.1.jar /extensions/tomcat-environment-property-source-file.jar
+COPY tomcat/jakarta.el-api-5.0.0.jar /extensions/jakarta.el-api-5.0.0.jar
+COPY tomcat/jakarta.servlet.jsp.jstl-api-3.0.0.jar /extensions/jakarta.servlet.jsp.jstl-api-3.0.0.jar
+COPY tomcat/jakarta.servlet.jsp.jstl-3.0.1.jar /extensions/jakarta.servlet.jsp.jstl-3.0.1.jar
 COPY tomcat/postgresql-42.5.4.jar /libs/postgresql.jar
 COPY tomcat/catalina.properties /configurations/catalina.properties
 COPY tomcat/logging.properties /configurations/logging.properties
@@ -54,6 +57,9 @@ RUN mkdir -p build/tomcat \
  && ant && mkdir -p /opt/tomcat \
  && cp -R output/build/* /opt/tomcat/ \
  && cp /extensions/tomcat-environment-property-source-file.jar /opt/tomcat/lib/ \
+ && cp /extensions/jakarta.el-api-5.0.0.jar /opt/tomcat/lib/ \
+ && cp /extensions/jakarta.servlet.jsp.jstl-api-3.0.0.jar /opt/tomcat/lib/ \
+ && cp /extensions/jakarta.servlet.jsp.jstl-3.0.1.jar /opt/tomcat/lib/ \
  && cp /libs/postgresql.jar /opt/tomcat/lib/ \
  && cp /configurations/catalina.properties /opt/tomcat/conf/ \
  && cp /configurations/logging.properties /opt/tomcat/conf/ \

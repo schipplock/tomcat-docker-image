@@ -2,6 +2,7 @@
 
 Das hier ist mein Docker Image für Tomcat (10.1.7 mit Temurin 11.0.18_10 JRE).
 Die Basis ist Ubuntu 22.04. Deutsche Locale und Uhrzeit sind vorkonfiguriert.
+Die Jakarta Standard Tag Library habe ich integriert (API: 3.0.0, IMPL: 3.0.1).
 
 Ich habe einen Datenbankpool für Postgres vorkonfiguriert, der über Umgebungsvariablen beeinflussbar ist
 (Benutzername, Passwort, Hostname, Port, Schema, max Connections, idle Connections). Der JDBC-Treiber ist enthalten. Der Resource-Name ist fest verdrahtet (`jdbc/postgres`).
