@@ -40,6 +40,7 @@
                 <Valve className="org.apache.catalina.valves.ErrorReportValve"
                        showReport="false"
                        showServerInfo="false" />
+                <Context docBase="${TOMCAT_UPLOAD_DIR}" path="/_files" cookies="false" />
             </Host>
         </Engine>
     </Service>

@@ -1,7 +1,7 @@
 FROM ubuntu:22.04 as build
 SHELL ["/bin/bash", "-c"]
 
-ARG APR_VERSION=1.7.2
+ARG APR_VERSION=1.7.3
 ARG TOMCAT_VERSION=10.1.7
 ARG TOMCAT_NATIVE_VERSION=2.0.3
 
@@ -68,6 +68,7 @@ RUN mkdir -p build/tomcat \
  && cp /configurations/tomcat-users.xml /opt/tomcat/conf/ \
  && cp /configurations/keystore.jks /opt/tomcat/conf/ \
  && cp /configurations/cacerts.jks /opt/tomcat/conf/ \
+ && mkdir -p /opt/tomcat/uploads \
  && rm -rf /opt/tomcat/webapps/{examples,docs,manager,host-manager,ROOT,webapps-javaee}
 
 RUN mkdir -p /opt/java \
@@ -82,6 +83,7 @@ ENV LANG de_DE.utf8
 ENV TZ Europe/Berlin
 ENV DEBIAN_FRONTEND=noninteractive
 ENV JAVA_HOME=/opt/java
+ENV TOMCAT_UPLOAD_DIR=/opt/tomcat/uploads
 ENV PATH=/opt/java/bin:/opt/tomcat/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 COPY --from=build /opt/java /opt/java

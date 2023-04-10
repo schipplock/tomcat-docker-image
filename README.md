@@ -19,6 +19,10 @@ Den `manager` und `host-manager` habe ich aus meinem Tomcat entfernt, weil ich d
 
 Aus Sicherheitsgründen deployt Tomcat nur beim Start eine vorhandene *.war. Nachträglich abgelegte *.war-Dateien werden nicht berücksichtigt. Der Shutdown-Port ist deaktiviert.
 
+Datei-Uploads können im Ordner `/opt/tomcat/uploads` abgelegt werden. Dieser Ort ist in der Umgebungsvariable `TOMCAT_UPLOAD_DIR` hinterlegt.
+Für diesen Ordner ist ein eigener Context konfiguriert, den man unter `/_files` über HTTP/HTTPS erreicht (kein DirectoryListing aktiviert).
+Nutzt man diesen Ordner, muss man zwingend ein Volume dafür definieren, da die Dateien sonst beim erneuten Erstellen des Containers weg sind.
+
 ## Wie benutze ich das Image?
 
 **Ich verpacke meine .war einfach in ein eigenes Docker-Image:**
