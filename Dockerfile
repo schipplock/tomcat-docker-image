@@ -24,6 +24,7 @@ COPY tomcat/context.xml /configurations/context.xml
 COPY tomcat/tomcat-users.xml /configurations/tomcat-users.xml
 COPY tomcat/keystore.jks /configurations/keystore.jks
 COPY tomcat/cacerts.jks /configurations/cacerts.jks
+COPY tomcat/setenv.sh /configurations/setenv.sh
 
 RUN apt-get update && apt-get install -y \
   build-essential libssl-dev \
@@ -68,6 +69,7 @@ RUN mkdir -p build/tomcat \
  && cp /configurations/tomcat-users.xml /opt/tomcat/conf/ \
  && cp /configurations/keystore.jks /opt/tomcat/conf/ \
  && cp /configurations/cacerts.jks /opt/tomcat/conf/ \
+ && cp /configurations/setenv.sh /opt/tomcat/bin/ && chmod +x /opt/tomcat/bin/setenv.sh \
  && mkdir -p /opt/tomcat/uploads \
  && rm -rf /opt/tomcat/webapps/{examples,docs,manager,host-manager,ROOT,webapps-javaee}
 
