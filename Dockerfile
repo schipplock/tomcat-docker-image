@@ -1,22 +1,22 @@
 FROM ubuntu:22.04 as build
 SHELL ["/bin/bash", "-c"]
 
-ARG APR_VERSION=1.7.3
-ARG TOMCAT_VERSION=10.1.7
+ARG APR_VERSION=1.7.4
+ARG TOMCAT_VERSION=10.1.8
 ARG TOMCAT_NATIVE_VERSION=2.0.3
 
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Falls der Ubuntu-Server mal wieder rumspackt (tut er manchmal),
 # kann man hier einen Mirror eintragen
-#COPY ubuntu/sources.list /etc/apt/sources.list
+COPY ubuntu/sources.list /etc/apt/sources.list
 
 COPY tomcat/build.properties build/tomcat/build.properties
 COPY tomcat/tomcat-environment-property-source-file-0.0.1.jar /extensions/tomcat-environment-property-source-file.jar
 COPY tomcat/jakarta.el-api-5.0.0.jar /extensions/jakarta.el-api-5.0.0.jar
 COPY tomcat/jakarta.servlet.jsp.jstl-api-3.0.0.jar /extensions/jakarta.servlet.jsp.jstl-api-3.0.0.jar
 COPY tomcat/jakarta.servlet.jsp.jstl-3.0.1.jar /extensions/jakarta.servlet.jsp.jstl-3.0.1.jar
-COPY tomcat/postgresql-42.5.4.jar /libs/postgresql.jar
+COPY tomcat/postgresql-42.6.0.jar /libs/postgresql.jar
 COPY tomcat/catalina.properties /configurations/catalina.properties
 COPY tomcat/logging.properties /configurations/logging.properties
 COPY tomcat/server.xml /configurations/server.xml
@@ -74,8 +74,8 @@ RUN mkdir -p build/tomcat \
  && rm -rf /opt/tomcat/webapps/{examples,docs,manager,host-manager,ROOT,webapps-javaee}
 
 RUN mkdir -p /opt/java \
- && wget --no-check-certificate "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.18%2B10/OpenJDK11U-jre_x64_linux_hotspot_11.0.18_10.tar.gz" \
- && tar xf OpenJDK11U-jre_x64_linux_hotspot_11.0.18_10.tar.gz -C /opt/java --strip-components=1 \
+ && wget --no-check-certificate "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.19%2B7/OpenJDK11U-jre_x64_linux_hotspot_11.0.19_7.tar.gz" \
+ && tar xf OpenJDK11U-jre_x64_linux_hotspot_11.0.19_7.tar.gz -C /opt/java --strip-components=1 \
  && rm -rf /opt/java/{man,legal}
 
 FROM ubuntu:22.04

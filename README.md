@@ -1,11 +1,11 @@
 # Tomcat Docker Image
 
-Das hier ist mein Docker Image für Tomcat (10.1.7 mit Temurin 11.0.18_10 JRE).
+Das hier ist mein Docker Image für Tomcat (10.1.8 mit Temurin 11.0.19_7 JRE).
 Die Basis ist Ubuntu 22.04. Deutsche Locale und Uhrzeit sind vorkonfiguriert.
 Die Jakarta Standard Tag Library habe ich integriert (API: 3.0.0, IMPL: 3.0.1).
 
 Ich habe einen Datenbankpool für Postgres vorkonfiguriert, der über Umgebungsvariablen beeinflussbar ist
-(Benutzername, Passwort, Hostname, Port, Schema, max Connections, idle Connections). Der JDBC-Treiber ist enthalten. Der Resource-Name ist fest verdrahtet (`jdbc/postgres`).
+(Benutzername, Passwort, Hostname, Port, Schema, max Connections, idle Connections). Der JDBC-Treiber ist in Version 42.6.0 enthalten. Der Resource-Name ist fest verdrahtet (`jdbc/postgres`).
 
 Außerdem ist ein `keystore` und ein `truststore` vorkonfiguriert.
 Der `keystore` enthält ein selbst erstelltes Zertifikat, damit man lokale Tests mit HTTPS machen kann.
@@ -28,7 +28,7 @@ Nutzt man diesen Ordner, muss man zwingend ein Volume dafür definieren, da die 
 **Ich verpacke meine .war einfach in ein eigenes Docker-Image:**
 
 ```dockerfile
-FROM docker.schipplock.de/tomcat:10.1.7
+FROM docker.schipplock.de/tomcat:10.1.8
 COPY target/foobar-0.0.1.war /opt/tomcat/webapps/ROOT.war
 ```
 
@@ -47,7 +47,7 @@ Ich stelle das Docker-Image zwar in meiner eigenen Docker Registry zur Verfügun
 Man kann das Image aber selbstverständlich auch selber bauen.
 
 ```bash
-docker build --no-cache --network=host --force-rm -t docker.schipplock.de/tomcat:10.1.7 .
+docker build --no-cache --network=host --force-rm -t docker.schipplock.de/tomcat:10.1.8 .
 ```
 
 ## Das Image in die Registry pushen
@@ -55,7 +55,7 @@ docker build --no-cache --network=host --force-rm -t docker.schipplock.de/tomcat
 Das funktioniert natürlich nur, wenn man den Zugang kennt. Diese Info habe ich für mich selbst hier dokumentiert.
 
 ```bash
-docker push docker.schipplock.de/tomcat:10.1.7
-docker tag docker.schipplock.de/tomcat:10.1.7 docker.schipplock.de/tomcat:latest
+docker push docker.schipplock.de/tomcat:10.1.8
+docker tag docker.schipplock.de/tomcat:10.1.8 docker.schipplock.de/tomcat:latest
 docker push docker.schipplock.de/tomcat:latest
 ```
