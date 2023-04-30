@@ -81,11 +81,12 @@ RUN mkdir -p /opt/java \
 FROM ubuntu:22.04
 SHELL ["/bin/bash", "-c"]
 
-ENV LANG de_DE.utf8
-ENV TZ Europe/Berlin
+ENV LANG=de_DE.utf8
+ENV TZ=Europe/Berlin
 ENV DEBIAN_FRONTEND=noninteractive
 ENV JAVA_HOME=/opt/java
 ENV TOMCAT_UPLOAD_DIR=/opt/tomcat/uploads
+ENV REMOTE_DEBUG_ENABLED=false
 ENV PATH=/opt/java/bin:/opt/tomcat/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 COPY --from=build /opt/java /opt/java

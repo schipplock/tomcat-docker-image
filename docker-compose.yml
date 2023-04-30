@@ -50,6 +50,7 @@ services:
     ports:
       - "80:8080"
       - "443:8443"
+      - "8000:8000" # remote debug port
     secrets:
       - truststore_password
       - keystore_password
@@ -65,5 +66,6 @@ services:
       TRUSTSTORE_PASSWORD_FILE: /run/secrets/truststore_password
       KEYSTORE_ALIAS: server
       KEYSTORE_PASSWORD_FILE: /run/secrets/keystore_password
+      REMOTE_DEBUG_ENABLED: true
     depends_on:
       - db
