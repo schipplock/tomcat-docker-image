@@ -29,7 +29,7 @@ COPY tomcat/setenv.sh /configurations/setenv.sh
 RUN apt-get update && apt-get install -y \
   build-essential libssl-dev \
   wget nano unzip \
-  openjdk-11-jdk \
+  openjdk-17-jdk \
   ant
 
 RUN mkdir -p build/apr \
@@ -74,8 +74,8 @@ RUN mkdir -p build/tomcat \
  && rm -rf /opt/tomcat/webapps/{examples,docs,manager,host-manager,ROOT,webapps-javaee}
 
 RUN mkdir -p /opt/java \
- && wget --no-check-certificate "https://github.com/adoptium/temurin11-binaries/releases/download/jdk-11.0.19%2B7/OpenJDK11U-jre_x64_linux_hotspot_11.0.19_7.tar.gz" \
- && tar xf OpenJDK11U-jre_x64_linux_hotspot_11.0.19_7.tar.gz -C /opt/java --strip-components=1 \
+ && wget --no-check-certificate "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.7%2B7/OpenJDK17U-jre_x64_linux_hotspot_17.0.7_7.tar.gz" \
+ && tar xf OpenJDK17U-jre_x64_linux_hotspot_17.0.7_7.tar.gz -C /opt/java --strip-components=1 \
  && rm -rf /opt/java/{man,legal}
 
 FROM ubuntu:22.04
