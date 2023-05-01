@@ -1,6 +1,6 @@
 # Tomcat Docker Image
 
-Das hier ist mein Docker Image für Tomcat (10.1.8 mit Temurin 11.0.19_7 JRE).
+Das hier ist mein Docker Image für Tomcat (10.1.8 mit Temurin 17).
 Die Basis ist Ubuntu 22.04. Deutsche Locale und Uhrzeit sind vorkonfiguriert.
 Die Jakarta Standard Tag Library habe ich integriert (API: 3.0.0, IMPL: 3.0.1).
 
