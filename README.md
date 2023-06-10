@@ -28,7 +28,7 @@ Nutzt man diesen Ordner, muss man zwingend ein Volume dafür definieren, da die 
 **Ich verpacke meine .war einfach in ein eigenes Docker-Image:**
 
 ```dockerfile
-FROM docker.schipplock.de/tomcat:10.1.9
+FROM ghcr.io/schipplock/tomcat-docker-image:v10.1.9
 COPY target/foobar-0.0.1.war /opt/tomcat/webapps/ROOT.war
 ```
 
@@ -43,19 +43,8 @@ Wenn es ganz wild wird, passiert das alles sogar in einer Pipeline :P.
 
 ## Das Image bauen
 
-Ich stelle das Docker-Image zwar in meiner eigenen Docker Registry zur Verfügung.
-Man kann das Image aber selbstverständlich auch selber bauen.
+Wenn man das Image selber bauen will:
 
 ```bash
-docker build --no-cache --network=host --force-rm -t docker.schipplock.de/tomcat:10.1.9 .
-```
-
-## Das Image in die Registry pushen
-
-Das funktioniert natürlich nur, wenn man den Zugang kennt. Diese Info habe ich für mich selbst hier dokumentiert.
-
-```bash
-docker push docker.schipplock.de/tomcat:10.1.9
-docker tag docker.schipplock.de/tomcat:10.1.9 docker.schipplock.de/tomcat:latest
-docker push docker.schipplock.de/tomcat:latest
+docker build --no-cache --network=host --force-rm -t ghcr.io/schipplock/tomcat-docker-image:v10.1.9 .
 ```
