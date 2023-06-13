@@ -60,6 +60,7 @@ RUN mkdir -p build/tomcat_native \
  && cd /
 
 RUN mkdir -p build/tomcat \
+ && export SOURCE_DATE_EPOCH=$(date +%s) \
  && wget https://dlcdn.apache.org/tomcat/tomcat-10/v$TOMCAT_VERSION/src/apache-tomcat-$TOMCAT_VERSION-src.tar.gz \
  && tar xf apache-tomcat-$TOMCAT_VERSION-src.tar.gz -C build/tomcat --strip-components=1 \
  && cd build/tomcat \
