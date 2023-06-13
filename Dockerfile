@@ -2,10 +2,12 @@ FROM ubuntu:22.04 as build
 SHELL ["/bin/bash", "-c"]
 
 ARG APR_VERSION=1.7.4
-ARG TOMCAT_VERSION=10.1.9
+ARG TOMCAT_VERSION=10.1.10
 ARG TOMCAT_NATIVE_VERSION=2.0.4
 
 ENV DEBIAN_FRONTEND=noninteractive
+ENV JAVA_HOME=/opt/jdk
+ENV PATH=/opt/jdk/bin:/opt/ant/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin
 
 # Falls der Ubuntu-Server mal wieder rumspackt (tut er manchmal),
 # kann man hier einen Mirror eintragen
@@ -28,9 +30,15 @@ COPY tomcat/setenv.sh /configurations/setenv.sh
 
 RUN apt-get update && apt-get install -y \
   build-essential libssl-dev \
-  wget nano unzip \
-  openjdk-17-jdk \
-  ant
+  wget nano unzip
+
+RUN mkdir -p /opt/jdk \
+ && wget --no-check-certificate "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.7%2B7/OpenJDK17U-jdk_x64_linux_hotspot_17.0.7_7.tar.gz" \
+ && tar xf OpenJDK17U-jdk_x64_linux_hotspot_17.0.7_7.tar.gz -C /opt/jdk --strip-components=1
+
+RUN mkdir -p /opt/ant \
+ && wget --no-check-certificate "https://dlcdn.apache.org//ant/binaries/apache-ant-1.10.13-bin.tar.gz" \
+ && tar xf apache-ant-1.10.13-bin.tar.gz -C /opt/ant --strip-components=1
 
 RUN mkdir -p build/apr \
  && wget https://downloads.apache.org/apr/apr-$APR_VERSION.tar.gz \
@@ -55,6 +63,9 @@ RUN mkdir -p build/tomcat \
  && wget https://dlcdn.apache.org/tomcat/tomcat-10/v$TOMCAT_VERSION/src/apache-tomcat-$TOMCAT_VERSION-src.tar.gz \
  && tar xf apache-tomcat-$TOMCAT_VERSION-src.tar.gz -C build/tomcat --strip-components=1 \
  && cd build/tomcat \
+ && sed -i 's/<property name="compile.release" value="11"\/>/<property name="compile.release" value="17"\/>/' build.xml \
+ && sed -i 's/<property name="min.java.version" value="11"\/>/<property name="min.java.version" value="17"\/>/' build.xml \
+ && sed -i 's/<property name="build.java.version" value="11"\/>/<property name="build.java.version" value="17"\/>/' build.xml \
  && ant && mkdir -p /opt/tomcat \
  && cp -R output/build/* /opt/tomcat/ \
  && cp /extensions/tomcat-environment-property-source-file.jar /opt/tomcat/lib/ \

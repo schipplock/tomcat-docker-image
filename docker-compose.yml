@@ -41,7 +41,7 @@ services:
       network: host
       context: .
       dockerfile: Dockerfile
-    image: docker.schipplock.de/tomcat:10.1.7
+    image: ghcr.io/schipplock/tomcat-docker-image:v10.1.10
     container_name: tomcat
     networks:
       local-net:
