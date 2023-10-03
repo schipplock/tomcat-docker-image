@@ -3,7 +3,7 @@ SHELL ["/bin/bash", "-c"]
 
 ARG APR_VERSION=1.7.4
 ARG TOMCAT_VERSION=10.1.13
-ARG TOMCAT_NATIVE_VERSION=2.0.5
+ARG TOMCAT_NATIVE_VERSION=2.0.6
 
 ENV DEBIAN_FRONTEND=noninteractive
 ENV JAVA_HOME=/opt/jdk
@@ -33,12 +33,12 @@ RUN apt-get update && apt-get install -y \
   wget nano unzip
 
 RUN mkdir -p /opt/jdk \
- && wget --no-check-certificate "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.7%2B7/OpenJDK17U-jdk_x64_linux_hotspot_17.0.7_7.tar.gz" \
- && tar xf OpenJDK17U-jdk_x64_linux_hotspot_17.0.7_7.tar.gz -C /opt/jdk --strip-components=1
+ && wget --no-check-certificate "https://download.bell-sw.com/java/21+37/bellsoft-jdk21+37-linux-amd64-lite.tar.gz" \
+ && tar xf bellsoft-jdk21+37-linux-amd64-lite.tar.gz -C /opt/jdk --strip-components=1
 
 RUN mkdir -p /opt/ant \
- && wget --no-check-certificate "https://dlcdn.apache.org//ant/binaries/apache-ant-1.10.13-bin.tar.gz" \
- && tar xf apache-ant-1.10.13-bin.tar.gz -C /opt/ant --strip-components=1
+ && wget --no-check-certificate "https://dlcdn.apache.org//ant/binaries/apache-ant-1.10.14-bin.tar.gz" \
+ && tar xf apache-ant-1.10.14-bin.tar.gz -C /opt/ant --strip-components=1
 
 RUN mkdir -p build/apr \
  && wget https://downloads.apache.org/apr/apr-$APR_VERSION.tar.gz \
@@ -64,9 +64,9 @@ RUN mkdir -p build/tomcat \
  && wget https://dlcdn.apache.org/tomcat/tomcat-10/v$TOMCAT_VERSION/src/apache-tomcat-$TOMCAT_VERSION-src.tar.gz \
  && tar xf apache-tomcat-$TOMCAT_VERSION-src.tar.gz -C build/tomcat --strip-components=1 \
  && cd build/tomcat \
- && sed -i 's/<property name="compile.release" value="11"\/>/<property name="compile.release" value="17"\/>/' build.xml \
- && sed -i 's/<property name="min.java.version" value="11"\/>/<property name="min.java.version" value="17"\/>/' build.xml \
- && sed -i 's/<property name="build.java.version" value="11"\/>/<property name="build.java.version" value="17"\/>/' build.xml \
+ && sed -i 's/<property name="compile.release" value="11"\/>/<property name="compile.release" value="21"\/>/' build.xml \
+ && sed -i 's/<property name="min.java.version" value="11"\/>/<property name="min.java.version" value="21"\/>/' build.xml \
+ && sed -i 's/<property name="build.java.version" value="11"\/>/<property name="build.java.version" value="21"\/>/' build.xml \
  && ant && mkdir -p /opt/tomcat \
  && cp -R output/build/* /opt/tomcat/ \
  && cp /extensions/tomcat-environment-property-source-file.jar /opt/tomcat/lib/ \
@@ -86,8 +86,8 @@ RUN mkdir -p build/tomcat \
  && rm -rf /opt/tomcat/webapps/{examples,docs,manager,host-manager,ROOT,webapps-javaee}
 
 RUN mkdir -p /opt/java \
- && wget --no-check-certificate "https://github.com/adoptium/temurin17-binaries/releases/download/jdk-17.0.7%2B7/OpenJDK17U-jre_x64_linux_hotspot_17.0.7_7.tar.gz" \
- && tar xf OpenJDK17U-jre_x64_linux_hotspot_17.0.7_7.tar.gz -C /opt/java --strip-components=1 \
+ && wget --no-check-certificate "https://download.bell-sw.com/java/21+37/bellsoft-jre21+37-linux-amd64.tar.gz" \
+ && tar xf bellsoft-jre21+37-linux-amd64.tar.gz -C /opt/java --strip-components=1 \
  && rm -rf /opt/java/{man,legal}
 
 FROM ubuntu:22.04
