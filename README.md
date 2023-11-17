@@ -28,7 +28,7 @@ Nutzt man diesen Ordner, muss man zwingend ein Volume dafür definieren, da die 
 **Ich verpacke meine .war einfach in ein eigenes Docker-Image:**
 
 ```dockerfile
-FROM ghcr.io/schipplock/tomcat-docker-image:v10.1.16-jdk21
+FROM ghcr.io/schipplock/tomcat-docker-image:v10.1.16
 COPY target/foobar-0.0.1.war /opt/tomcat/webapps/ROOT.war
 ```
 
@@ -43,5 +43,5 @@ docker build --no-cache --network=host --force-rm -t local/foobar:0.0.1 .
 Wenn man das Image selber bauen will:
 
 ```bash
-docker build --no-cache --network=host --force-rm -t ghcr.io/schipplock/tomcat-docker-image:v10.1.16-jre21 .
+docker build --no-cache --network=host --force-rm -t ghcr.io/schipplock/tomcat-docker-image:v10.1.16 .
 ```
