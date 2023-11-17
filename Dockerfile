@@ -2,7 +2,7 @@ FROM ubuntu:22.04 as build
 SHELL ["/bin/bash", "-c"]
 
 ARG APR_VERSION=1.7.4
-ARG TOMCAT_VERSION=10.1.13
+ARG TOMCAT_VERSION=10.1.16
 ARG TOMCAT_NATIVE_VERSION=2.0.6
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -33,8 +33,8 @@ RUN apt-get update && apt-get install -y \
   wget nano unzip
 
 RUN mkdir -p /opt/jdk \
- && wget --no-check-certificate "https://download.bell-sw.com/java/21+37/bellsoft-jdk21+37-linux-amd64-lite.tar.gz" \
- && tar xf bellsoft-jdk21+37-linux-amd64-lite.tar.gz -C /opt/jdk --strip-components=1
+ && wget --no-check-certificate "https://download.bell-sw.com/java/21.0.1+12/bellsoft-jdk21.0.1+12-linux-amd64-lite.tar.gz" \
+ && tar xf bellsoft-jdk21.0.1+12-linux-amd64-lite.tar.gz -C /opt/jdk --strip-components=1
 
 RUN mkdir -p /opt/ant \
  && wget --no-check-certificate "https://dlcdn.apache.org//ant/binaries/apache-ant-1.10.14-bin.tar.gz" \
@@ -86,8 +86,8 @@ RUN mkdir -p build/tomcat \
  && rm -rf /opt/tomcat/webapps/{examples,docs,manager,host-manager,ROOT,webapps-javaee}
 
 RUN mkdir -p /opt/java \
- && wget --no-check-certificate "https://download.bell-sw.com/java/21+37/bellsoft-jre21+37-linux-amd64.tar.gz" \
- && tar xf bellsoft-jre21+37-linux-amd64.tar.gz -C /opt/java --strip-components=1 \
+ && wget --no-check-certificate "https://download.bell-sw.com/java/21.0.1+12/bellsoft-jre21.0.1+12-linux-amd64.tar.gz" \
+ && tar xf bellsoft-jre21.0.1+12-linux-amd64.tar.gz -C /opt/java --strip-components=1 \
  && rm -rf /opt/java/{man,legal}
 
 FROM ubuntu:22.04
