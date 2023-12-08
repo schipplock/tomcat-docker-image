@@ -11,6 +11,11 @@
                   description="User database that can be updated and saved"
                   factory="org.apache.catalina.users.MemoryUserDatabaseFactory"
                   pathname="conf/tomcat-users.xml" />
+        <Resource name="jdbc/postgres" auth="Container"
+                  type="javax.sql.DataSource" driverClassName="org.postgresql.Driver"
+                  url="jdbc:postgresql://${POSTGRES_HOST}:${POSTGRES_PORT:-5432}/${POSTGRES_DB}"
+                  username="${POSTGRES_USER}" password="${POSTGRES_PASSWORD_FILE}" maxTotal="${TOMCAT_POOL_MAX_CONNECTIONS:-20}" maxIdle="${TOMCAT_POOL_MAX_IDLE_CONNECTIONS:-10}"
+                  maxWaitMillis="-1" />
     </GlobalNamingResources>
     <Service name="Catalina">
         <Connector port="8080" protocol="HTTP/1.1"
@@ -27,11 +32,19 @@
             </SSLHostConfig>
         </Connector>
         <Engine name="Catalina" defaultHost="localhost">
-            <Realm className="org.apache.catalina.realm.LockOutRealm">
-                <Realm className="org.apache.catalina.realm.UserDatabaseRealm"
-                       resourceName="UserDatabase"/>
-            </Realm>
             <Host name="localhost" appBase="webapps" unpackWARs="true" autoDeploy="false" deployOnStartup="true">
+                <Realm className="org.apache.catalina.realm.DataSourceRealm"
+                       resourceName="DataSourceRealm"
+                       dataSourceName="jdbc/postgres"
+                       userTable="users"
+                       userNameCol="user_name"
+                       userCredCol="user_pass"
+                       userRoleTable="user_roles"
+                       roleNameCol="role_name"
+                       debug="9">
+                    <CredentialHandler className="org.apache.catalina.realm.MessageDigestCredentialHandler"
+                                       algorithm="SHA-512"/>
+                </Realm>
                 <Valve className="org.apache.catalina.valves.AccessLogValve"
                        rotatable="false"
                        directory="logs"
