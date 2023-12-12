@@ -2,7 +2,7 @@ FROM ubuntu:22.04 as build
 SHELL ["/bin/bash", "-c"]
 
 ARG APR_VERSION=1.7.4
-ARG TOMCAT_VERSION=10.1.16
+ARG TOMCAT_VERSION=10.1.17
 ARG TOMCAT_NATIVE_VERSION=2.0.6
 
 ENV DEBIAN_FRONTEND=noninteractive
@@ -15,10 +15,10 @@ COPY ubuntu/sources.list /etc/apt/sources.list
 
 COPY tomcat/build.properties build/tomcat/build.properties
 COPY tomcat/tomcat-environment-property-source-file-0.0.1.jar /extensions/tomcat-environment-property-source-file.jar
-COPY tomcat/jakarta.el-api-5.0.0.jar /extensions/jakarta.el-api-5.0.0.jar
+COPY tomcat/jakarta.el-api-5.0.1.jar /extensions/jakarta.el-api-5.0.1.jar
 COPY tomcat/jakarta.servlet.jsp.jstl-api-3.0.0.jar /extensions/jakarta.servlet.jsp.jstl-api-3.0.0.jar
 COPY tomcat/jakarta.servlet.jsp.jstl-3.0.1.jar /extensions/jakarta.servlet.jsp.jstl-3.0.1.jar
-COPY tomcat/postgresql-42.6.0.jar /libs/postgresql.jar
+COPY tomcat/postgresql-42.7.1.jar /libs/postgresql.jar
 COPY tomcat/catalina.properties /configurations/catalina.properties
 COPY tomcat/logging.properties /configurations/logging.properties
 COPY tomcat/server.xml /configurations/server.xml
@@ -70,7 +70,7 @@ RUN mkdir -p build/tomcat \
  && ant && mkdir -p /opt/tomcat \
  && cp -R output/build/* /opt/tomcat/ \
  && cp /extensions/tomcat-environment-property-source-file.jar /opt/tomcat/lib/ \
- && cp /extensions/jakarta.el-api-5.0.0.jar /opt/tomcat/lib/ \
+ && cp /extensions/jakarta.el-api-5.0.1.jar /opt/tomcat/lib/ \
  && cp /extensions/jakarta.servlet.jsp.jstl-api-3.0.0.jar /opt/tomcat/lib/ \
  && cp /extensions/jakarta.servlet.jsp.jstl-3.0.1.jar /opt/tomcat/lib/ \
  && cp /libs/postgresql.jar /opt/tomcat/lib/ \

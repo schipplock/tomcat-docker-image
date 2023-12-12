@@ -1,11 +1,13 @@
 # Tomcat Docker Image
 
-Das hier ist mein Docker Image für Tomcat (10.1.16 mit Java 21 (von https://bell-sw.com)).
+Das hier ist mein Docker Image für Tomcat (10.1.17 mit Java 21 (von https://bell-sw.com)).
 Die Basis ist Ubuntu 22.04. Deutsche Locale und Uhrzeit sind vorkonfiguriert.
 Die Jakarta Standard Tag Library habe ich integriert (API: 3.0.0, IMPL: 3.0.1).
 
 Ich habe einen Datenbankpool für Postgres vorkonfiguriert, der über Umgebungsvariablen beeinflussbar ist
-(Benutzername, Passwort, Hostname, Port, Schema, max Connections, idle Connections). Der JDBC-Treiber ist in Version 42.6.0 enthalten. Der Resource-Name ist fest verdrahtet (`jdbc/postgres`).
+(Benutzername, Passwort, Hostname, Port, Schema, max Connections, idle Connections). Der JDBC-Treiber ist in Version 42.7.1 enthalten. Der Resource-Name ist fest verdrahtet (`jdbc/postgres`).
+
+Für diese Datenbankresource ist standardmäßig ein SHA-512 DataSourceRealm konfiguriert.
 
 Außerdem ist ein `keystore` und ein `truststore` vorkonfiguriert.
 Der `keystore` enthält ein selbst erstelltes Zertifikat, damit man lokale Tests mit HTTPS machen kann.
@@ -28,7 +30,7 @@ Nutzt man diesen Ordner, muss man zwingend ein Volume dafür definieren, da die 
 **Ich verpacke meine .war einfach in ein eigenes Docker-Image:**
 
 ```dockerfile
-FROM ghcr.io/schipplock/tomcat-docker-image:v10.1.16
+FROM ghcr.io/schipplock/tomcat-docker-image:v10.1.17
 COPY target/foobar-0.0.1.war /opt/tomcat/webapps/ROOT.war
 ```
 
@@ -43,5 +45,5 @@ docker build --no-cache --network=host --force-rm -t local/foobar:0.0.1 .
 Wenn man das Image selber bauen will:
 
 ```bash
-docker build --no-cache --network=host --force-rm -t ghcr.io/schipplock/tomcat-docker-image:v10.1.16 .
+docker build --no-cache --network=host --force-rm -t ghcr.io/schipplock/tomcat-docker-image:v10.1.17 .
 ```
