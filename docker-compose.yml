@@ -41,7 +41,7 @@ services:
       network: host
       context: .
       dockerfile: Dockerfile
-    image: ghcr.io/schipplock/tomcat-docker-image:v10.1.17
+    image: ghcr.io/schipplock/tomcat-docker-image:v10.1.17.1
     container_name: tomcat
     networks:
       local-net:
@@ -51,6 +51,8 @@ services:
       - "80:8080"
       - "443:8443"
       - "8000:8000" # remote debug port
+      - "9000:9000" # remote jmx port
+      - "9100:9100" # remote rmi port
     secrets:
       - truststore_password
       - keystore_password
@@ -67,5 +69,6 @@ services:
       KEYSTORE_ALIAS: server
       KEYSTORE_PASSWORD_FILE: /run/secrets/keystore_password
       REMOTE_DEBUG_ENABLED: true
+      REMOTE_JMX_ENABLED: true
     depends_on:
       - db

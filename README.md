@@ -25,12 +25,25 @@ Datei-Uploads können im Ordner `/opt/tomcat/uploads` abgelegt werden. Dieser Or
 Für diesen Ordner ist ein eigener Context konfiguriert, den man unter `/_files` über HTTP/HTTPS erreicht (kein DirectoryListing aktiviert).
 Nutzt man diesen Ordner, muss man zwingend ein Volume dafür definieren, da die Dateien sonst beim erneuten Erstellen des Containers weg sind.
 
+## Wichtig!
+
+`REMOTE_DEBUG_ENABLED` und `REMOTE_JMX_ENABLED` in der `docker-compose.yml` sollten in einer produktiven Umgebung auf
+gar keinen Fall auf `true` gesetzt werden. Es können zum Beispiel die Zugangsdaten der Datenquelle ausgelesen werden.
+Diese beiden Umgebungsvariablen sollen nur für die lokale Entwicklung genutzt werden.
+
+Wenn man sich natürlich ganz sicher ist, mit Firewall und so, von mir aus. Ich könnte JMX auch "sicher" machen, mit
+Zertifikaten und SSL, Benutzernamen und Passwort, aber ich benötige es nur lokal. Vielleicht ein anderes Mal.
+
+JMX funktioniert nur, wenn der RMI-Port auch freigegeben wurde. So wie in der `docker-compose.yml` auch beispielhaft
+gezeigt. Ich erwähne es aber dennoch, weil der Port sinnlos zu wirken scheint. Er existiert aber aus realen Gründen :).
+Ich nutze JMX mit VisualVM (https://visualvm.github.io/) und manchmal auch nur mit `jconsole`.
+
 ## Wie benutze ich das Image?
 
 **Ich verpacke meine .war einfach in ein eigenes Docker-Image:**
 
 ```dockerfile
-FROM ghcr.io/schipplock/tomcat-docker-image:v10.1.17
+FROM ghcr.io/schipplock/tomcat-docker-image:v10.1.17.1
 COPY target/foobar-0.0.1.war /opt/tomcat/webapps/ROOT.war
 ```
 
@@ -45,5 +58,5 @@ docker build --no-cache --network=host --force-rm -t local/foobar:0.0.1 .
 Wenn man das Image selber bauen will:
 
 ```bash
-docker build --no-cache --network=host --force-rm -t ghcr.io/schipplock/tomcat-docker-image:v10.1.17 .
+docker build --no-cache --network=host --force-rm -t ghcr.io/schipplock/tomcat-docker-image:v10.1.17.1 .
 ```
