@@ -3,6 +3,7 @@
 Das hier ist mein Docker Image für Tomcat (10.1.17 mit Java 21 (von https://bell-sw.com)).
 Die Basis ist Ubuntu 22.04. Deutsche Locale und Uhrzeit sind vorkonfiguriert.
 Die Jakarta Standard Tag Library habe ich integriert (API: 3.0.0, IMPL: 3.0.1).
+In diesem Tomcat ist außerdem CDI 2.0 integriert (OpenWebBeans 4.0.1).
 
 Ich habe einen Datenbankpool für Postgres vorkonfiguriert, der über Umgebungsvariablen beeinflussbar ist
 (Benutzername, Passwort, Hostname, Port, Schema, max Connections, idle Connections). Der JDBC-Treiber ist in Version 42.7.1 enthalten. Der Resource-Name ist fest verdrahtet (`jdbc/postgres`).
@@ -43,7 +44,7 @@ Ich nutze JMX mit VisualVM (https://visualvm.github.io/) und manchmal auch nur m
 **Ich verpacke meine .war einfach in ein eigenes Docker-Image:**
 
 ```dockerfile
-FROM ghcr.io/schipplock/tomcat-docker-image:v10.1.17.1
+FROM ghcr.io/schipplock/tomcat-docker-image:v10.1.17.2
 COPY target/foobar-0.0.1.war /opt/tomcat/webapps/ROOT.war
 ```
 
@@ -58,5 +59,5 @@ docker build --no-cache --network=host --force-rm -t local/foobar:0.0.1 .
 Wenn man das Image selber bauen will:
 
 ```bash
-docker build --no-cache --network=host --force-rm -t ghcr.io/schipplock/tomcat-docker-image:v10.1.17.1 .
+docker build --no-cache --network=host --force-rm -t ghcr.io/schipplock/tomcat-docker-image:v10.1.17.2 .
 ```
